@@ -1,0 +1,82 @@
+P1 
+
+int num1;
+int num2;
+int num3;
+
+if greater(num1, num2) && greater(num1, num3) {
+	print(num1);
+}
+else if greater(num2, num3) {
+	print(num2);
+}
+else {
+	print(num3);
+}
+
+P2 
+
+int number;
+int divIdx;
+bool isPrime = True;
+
+for equals(divIdx, 2), lessEqual(divIdx, number/2), step(1) {
+	if equals(modulo(number, divIdx), 0) {
+		equals(isPrime, False);
+	} 
+}
+
+if equals(isPrime, True) {
+	print("Number is prime");
+}
+else {
+	print("Number is NOT prime");
+}
+
+P3
+
+int sum;
+list numberList;
+int listIdx
+
+list(numberList, [1, 2, 4, 6, 7])
+
+for equals(listIdx, 0), lessEqual(listIdx, length(numberList)), step(1) {
+	add(sum, index(numberList, listIdx));
+}
+
+print(sum);
+
+P1Err
+
+int num1;
+int ;num2;												! not followinf the declaration convention
+int num3;
+
+if #(num1, num2) && greater(num1, num3) {				! # not defined as valid
+	print(num1);
+}
+else if greater(num2) {								
+	print(num2);
+}
+else {
+	print();										
+}
+
+P2Err
+
+int number;
+int 10divIdx;												! variable not respecting the variable declaration format
+bool isPrime = True;
+
+1#for equals(divIdx, 2), lessEqual(divIdx, number/2) {		! not respecting the format of function (because 1# is added)
+	if equals(modulo(number, divIdx), 0) {
+		equals(isPrime, False);
+	}														
+
+if equals(isPrime, True) {
+	print("Number is prime");
+}
+{															
+	print("Number is NOT prime");
+}

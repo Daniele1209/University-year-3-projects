@@ -1,0 +1,15 @@
+int number;
+int 10divIdx;												! variable not respecting the variable declaration format
+bool isPrime = True;
+
+1#for equals(divIdx, 2), lessEqual(divIdx, number/2) {		! not respecting the format of function (because 1# is added)
+	if equals(modulo(number, divIdx), 0) {
+		equals(isPrime, False);
+	}														
+
+if equals(isPrime, True) {
+	print("Number is prime");
+}
+{															
+	print("Number is NOT prime");
+}

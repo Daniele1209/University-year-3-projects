@@ -1,0 +1,13 @@
+int num1;
+int ;num2;												! not followinf the declaration convention
+int num3;
+
+if #(num1, num2) && greater(num1, num3) {				! # not defined as valid
+	print(num1);
+}
+else if greater(num2) {								
+	print(num2);
+}
+else {
+	print();										
+}

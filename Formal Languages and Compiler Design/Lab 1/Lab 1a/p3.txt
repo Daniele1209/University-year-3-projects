@@ -1,0 +1,11 @@
+int sum;
+list numberList;
+int listIdx
+
+list(numberList, [1, 2, 4, 6, 7])
+
+for equals(listIdx, 0), lessEqual(listIdx, length(numberList)), step(1) {
+	add(sum, index(numberList, listIdx));
+}
+
+print(sum);

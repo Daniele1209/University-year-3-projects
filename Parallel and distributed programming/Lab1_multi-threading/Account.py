@@ -19,11 +19,16 @@ class Account:
     def addBalance(self, amount):
         self.accountBalance += amount
 
+    def getBalance(self):
+        return self.accountBalance
+
     def subtractBalance(self, amount):
         if self.chackBalance(amount):
             self.accountBalance -= amount
+            return True
         else:
             print('Balance not sufficient !')
+            return False
 
-    def getBalance(self):
-        return self.accountBalance
+    def appendLog(self, transactionId, logString):
+        self.log[int(transactionId)] = logString

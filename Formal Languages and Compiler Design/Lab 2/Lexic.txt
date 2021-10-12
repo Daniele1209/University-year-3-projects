@@ -26,3 +26,7 @@ c.constants
 		string = char{char}
 	4. boolean
 		bool = 'True'|'False'
+	5. user defined type:
+		predeftype = int | char | string | bool
+		type nameOfType 
+			

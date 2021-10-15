@@ -32,3 +32,6 @@ class Account:
 
     def appendLog(self, transactionId, logString):
         self.log[int(transactionId)] = logString
+        f = open("logfile.txt", "a")
+        f.write(str(transactionId) + " " + logString)
+        f.close()

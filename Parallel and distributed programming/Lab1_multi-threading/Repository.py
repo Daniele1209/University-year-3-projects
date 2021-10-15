@@ -12,7 +12,7 @@ class Repository:
         while idGeneration in self.logHistory.keys():
             idGeneration = random.randint(1, 1000)
         self.lastId = idGeneration
-        logString = str(operation.getOperationType()) + ' Account 1: ' + str(accountX.getName()) + ' Account 2: ' + str(accountY.getName()) + ' Amount: ' + str(amount)
+        logString = str(operation.getOperationType()) + ' | Account 1: ' + str(accountX.getName()) + ' | Account 2: ' + str(accountY.getName()) + ' | Amount: ' + str(amount)
         self.logHistory[idGeneration] = logString
         
         return self.lastId, logString

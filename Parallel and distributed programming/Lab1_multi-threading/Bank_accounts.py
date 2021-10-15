@@ -20,6 +20,7 @@ From time to time, as well as at the end of the program, a consistency check sha
 """
 
 def executeConsistencyCheck():
+    pass
     
 
 def executeAddOperation(operation, accountX, accountY):

@@ -26,10 +26,8 @@ THREAD_NUMBER = 100
 ACCOUNT_NUMBER = 40
 CONSISTENCY_CHECK = 10
 consistency_mutex = Lock()
-failed_passes = 0
 
 def executeConsistencyCheck():
-    consistency_mutex.acquire()
     print('Started consistency check !')
     # Make a list of booleans to keep count of the consistency
     consistencyList = {}
@@ -42,18 +40,18 @@ def executeConsistencyCheck():
         # Go through all of the account logs and process the operations to see if we end up with the current balance
         for log in accountLogs.values():
             log_split = log.split(',')
-            if log_split == 'send':
+            if log_split[0] == 'send':
                 initialAccountBalance -= int(log_split[1].split(':')[1])
             else:
                 initialAccountBalance += int(log_split[1].split(':')[1])
             if initialAccountBalance == currentAccountBalance:
                 consistencyList[account.getName()] = True
+            else:
+                consistencyList[account.getName()] = False
     if False not in consistencyList.values():
-        print('Consistency check passed !')
+        print('Consistency check passed ! ✔️')
     else:
-        print('Consistency check failed !')
-        failed_passes += 1
-    consistency_mutex.release()
+        print('Consistency check failed ! ❌')
 
 
 def executeAddOperation(operation, accountX, accountY):
@@ -102,19 +100,26 @@ if __name__ == '__main__':
     print('Accounts generated successfully!')
 
     start = time.time()
+    threads = []
 
     for threadIndex in range(THREAD_NUMBER):
 
         if threadIndex % CONSISTENCY_CHECK == 0:
             executeConsistencyCheck()
+
         else:
-            #transferOperation = Operation('add', random.randint(1, 300))
-            #accountX, accountY = random.sample(set(repository.getAccounts()), 2)
+            transferOperation = Operation('add', random.randint(1, 300))
+            accountX, accountY = random.sample(set(repository.getAccounts()), 2)
             # Start a thread for a transaction between the 2 random selected accounts
-            #t = threading.Thread(target = threadTransaction(transferOperation, accountX, accountY), args=(threadIndex, ))
-            t = threading.Thread(target = threadFunctionLoop(TRANSACTION_NUMBER), args=(threadIndex, ))
+            t = threading.Thread(target = threadTransaction(transferOperation, accountX, accountY), args=(threadIndex, ))
+            #t = threading.Thread(target = threadFunctionLoop(TRANSACTION_NUMBER), args=(threadIndex, ))
+            threads.append(t)
             t.start()
-    t.join()
+
+    for thread in threads:
+        if not thread.is_alive():
+            thread.join()
+    
     elapsed_time = time.time() - start
     print('Elapsed time: ' + str(elapsed_time))
-    print('Failed consistency checks: ' + str(failed_passes))
+

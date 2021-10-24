@@ -10,4 +10,4 @@ class Producer:
         for index in range(0, len(self.array1)):
             print('PRODUCER -> ' + str(self.array1[index]) + ' * ' + str(self.array2[index]))
             workQueue.put(self.array1[index] * self.array2[index])
-        finishQueue.put(False)
+        finishQueue.put(True)

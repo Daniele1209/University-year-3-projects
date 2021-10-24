@@ -1,0 +1,15 @@
+//START//
+int num ;
+int 12num12 ;
+int num3 ;
+
+if num1 > num2 @ num1 > num3 {
+	print ( num1 ) ;
+}
+else if  num2 > num3 and num2 > num1 {
+	`print ( num2 ) ;
+}
+else {
+	print ( num3 ) ;
+}
+//STOP//

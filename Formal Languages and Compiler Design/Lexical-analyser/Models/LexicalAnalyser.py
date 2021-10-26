@@ -12,7 +12,6 @@ class LexicalAnalyser:
         self.ST = symbolTable
         self.regexTokenizer_string = ''
         self.loadTokens()
-        self.regexTokenizer()
 
     def checkIdentifier(self, token):
         return self.patternMatch('^[a-zA-Z_$][a-zA-Z_$0-9]*$', token) and token is not None
@@ -44,16 +43,6 @@ class LexicalAnalyser:
 
     def genPIF(self, token, position):
         self.PIF.append([token, position])
-
-    def regexTokenizer(self):
-        self.regexTokenizer_string += '('
-        for operator in self.tokens['operators']:
-            self.regexTokenizer_string += operator + '|'
-        for separator in self.tokens['separators']:
-            self.regexTokenizer_string += separator + '|'
-        self.regexTokenizer_string += '[A-Za-z0-9 ]*$| |\\n'
-        self.regexTokenizer_string += ')'
-        print(self.regexTokenizer_string)
 
     def loadTokens(self):
         currentItem = ''

@@ -1,0 +1,37 @@
+program = "//\\" cmpdstmt "\\//"
+
+declaration = type " " IDENTIFIER
+
+type = "bool" | "char" | "string" | "int" | "float"
+
+arraydecl = "arr" " " type IDENTIFIER
+
+assignstmt = IDENTIFIER "=" expression
+
+simplstmt = assignstmt | iostmt | declaration
+
+stmt = simplstmt | structstmt
+
+stmtlist = stmt | stmt '\n' stmtlist
+
+cmpdstmt = "BEGIN" stmtlist "END"
+
+expression = expression "+" term | term
+
+term = term "*" factor | factor
+
+factor = "(" expression ")" | IDENTIFIER
+
+iostmt = "read" "(" IDENTIFIER ")" | "write" "(" IDENTIFIER ")"
+
+structstmt = cmpdstmt | ifstmt | whilestmt
+
+forstmt = "for" assignstmt ", " condition ", " "step" "(" expression ")" "{" cmpdstmt "}"
+
+ifstmt = "if" condition "{" stmt "}" "else" "{" stmt "}"
+
+whilestmt = "while" condition "{" stmt "}"
+
+condition = expression RELATION expression
+
+RELATION "<" | "<=" | "=" | "<>" | ">=" | ">" | "not ="

@@ -1,0 +1,18 @@
+//START//
+int number ;
+int divIdx ;
+bool isPrime = True ;
+
+for equals ( divIdx , 2 ) , divIdx <= number / 2 , step ( 1 ) {
+	if equals ( modulo ( number , divIdx ) , 0 ) {
+		equals ( isPrime , False ) ;
+	}
+}
+
+if equals ( isPrime , True ) {
+	print ( "Number is prime" ) ;
+}
+else {
+	print ( "Number is NOT prime" ) ;
+}
+//STOP//

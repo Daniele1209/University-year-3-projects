@@ -1,0 +1,13 @@
+Q
+p q r
+E
+a b
+D
+(p,a)=q
+(q,a)=q
+(q,b)=r
+(p,b)=r
+q0
+p
+F
+r

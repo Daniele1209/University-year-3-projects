@@ -88,227 +88,523 @@ module.exports =
 /************************************************************************/
 /******/ ({
 
+/***/ "./src/auth/index.js":
+/*!***************************!*\
+  !*** ./src/auth/index.js ***!
+  \***************************/
+/*! exports provided: router */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _router__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./router */ "./src/auth/router.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "router", function() { return _router__WEBPACK_IMPORTED_MODULE_0__["router"]; });
+
+
+
+/***/ }),
+
+/***/ "./src/auth/router.js":
+/*!****************************!*\
+  !*** ./src/auth/router.js ***!
+  \****************************/
+/*! exports provided: router */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "router", function() { return router; });
+/* harmony import */ var koa_router__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! koa-router */ "koa-router");
+/* harmony import */ var koa_router__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(koa_router__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./store */ "./src/auth/store.js");
+/* harmony import */ var jsonwebtoken__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! jsonwebtoken */ "jsonwebtoken");
+/* harmony import */ var jsonwebtoken__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(jsonwebtoken__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _utils_constants__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../utils/constants */ "./src/utils/constants.js");
+
+
+
+
+const router = new koa_router__WEBPACK_IMPORTED_MODULE_0___default.a();
+
+const createToken = user => {
+  return jsonwebtoken__WEBPACK_IMPORTED_MODULE_2___default.a.sign({
+    username: user.username,
+    _id: user._id
+  }, _utils_constants__WEBPACK_IMPORTED_MODULE_3__["jwtConfig"].secret, {
+    expiresIn: 60 * 60 * 60
+  });
+};
+
+const createUser = async (user, response) => {
+  try {
+    await _store__WEBPACK_IMPORTED_MODULE_1__["default"].insert(user);
+    response.body = {
+      token: createToken(user),
+      _id: user._id
+    };
+    response.status = 201; // created
+  } catch (err) {
+    response.body = {
+      issue: [{
+        error: err.message
+      }]
+    };
+    response.status = 400; // bad request
+  }
+};
+
+router.post('/signup', async ctx => await createUser(ctx.request.body, ctx.response));
+router.post('/login', async ctx => {
+  const credentials = ctx.request.body;
+  console.log('Alo' + credentials);
+  const response = ctx.response;
+  const user = await _store__WEBPACK_IMPORTED_MODULE_1__["default"].findOne({
+    username: credentials.username
+  });
+
+  if (user && credentials.password === user.password) {
+    response.body = {
+      token: createToken(user),
+      _id: user._id
+    };
+    response.status = 201; // created
+  } else {
+    response.body = {
+      issue: [{
+        error: 'Invalid credentials'
+      }]
+    };
+    response.status = 400; // bad request
+  }
+});
+
+/***/ }),
+
+/***/ "./src/auth/store.js":
+/*!***************************!*\
+  !*** ./src/auth/store.js ***!
+  \***************************/
+/*! exports provided: UserStore, default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "UserStore", function() { return UserStore; });
+/* harmony import */ var nedb_promise__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! nedb-promise */ "nedb-promise");
+/* harmony import */ var nedb_promise__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(nedb_promise__WEBPACK_IMPORTED_MODULE_0__);
+
+class UserStore {
+  constructor({
+    filename,
+    autoload
+  }) {
+    this.store = nedb_promise__WEBPACK_IMPORTED_MODULE_0___default()({
+      filename,
+      autoload
+    });
+  }
+
+  async findOne(props) {
+    return this.store.findOne(props);
+  }
+
+  async insert(user) {
+    //
+    return this.store.insert(user);
+  }
+
+}
+/* harmony default export */ __webpack_exports__["default"] = (new UserStore({
+  filename: './db/users.json',
+  autoload: true
+}));
+
+/***/ }),
+
+/***/ "./src/book/index.js":
+/*!***************************!*\
+  !*** ./src/book/index.js ***!
+  \***************************/
+/*! exports provided: router */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _router__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./router */ "./src/book/router.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "router", function() { return _router__WEBPACK_IMPORTED_MODULE_0__["router"]; });
+
+
+
+/***/ }),
+
+/***/ "./src/book/router.js":
+/*!****************************!*\
+  !*** ./src/book/router.js ***!
+  \****************************/
+/*! exports provided: router */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "router", function() { return router; });
+/* harmony import */ var koa_router__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! koa-router */ "koa-router");
+/* harmony import */ var koa_router__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(koa_router__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./store */ "./src/book/store.js");
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utils */ "./src/utils/index.js");
+
+
+
+const router = new koa_router__WEBPACK_IMPORTED_MODULE_0___default.a();
+router.get('/books', async ctx => {
+  const response = ctx.response;
+  const userId = ctx.state.user._id;
+  response.body = await _store__WEBPACK_IMPORTED_MODULE_1__["default"].find({
+    userId
+  });
+  response.status = 200; // ok
+});
+router.get('/book/:id', async ctx => {
+  const userId = ctx.state.user._id;
+  const book = await _store__WEBPACK_IMPORTED_MODULE_1__["default"].findOne({
+    _id: ctx.params.id
+  });
+  const response = ctx.response;
+
+  if (book) {
+    if (book.userId === userId) {
+      response.body = book;
+      response.status = 200; // ok
+    } else {
+      response.status = 403; // forbidden
+    }
+  } else {
+    response.status = 404; // not found
+  }
+});
+
+const createBook = async (ctx, book, response) => {
+  console.log("SE CREEAZA O CARTE");
+
+  try {
+    const userId = ctx.state.user._id;
+    book.userId = userId;
+    response.body = await _store__WEBPACK_IMPORTED_MODULE_1__["default"].insert(book);
+    response.status = 201; // created
+
+    Object(_utils__WEBPACK_IMPORTED_MODULE_2__["broadcast"])(userId, {
+      type: 'created',
+      payload: response.body
+    });
+  } catch (err) {
+    response.body = {
+      message: err.message
+    };
+    response.status = 400; // bad request
+  }
+};
+
+router.post('/book', async ctx => await createBook(ctx, ctx.request.body, ctx.response));
+router.put('/book/:id', async ctx => {
+  console.log("SE EDITEAZA O CARTE");
+  const book = ctx.request.body;
+  const id = ctx.params.id;
+  const bookId = book._id;
+  const response = ctx.response;
+
+  if (bookId && bookId !== id) {
+    response.body = {
+      message: 'Param id and body _id should be the same'
+    };
+    response.status = 400; // bad request
+
+    return;
+  }
+
+  const userId = ctx.state.user._id;
+  book.userId = userId;
+  const updatedCount = await _store__WEBPACK_IMPORTED_MODULE_1__["default"].update({
+    _id: id
+  }, book);
+
+  if (updatedCount === 1) {
+    response.body = book;
+    response.status = 200; // ok
+
+    Object(_utils__WEBPACK_IMPORTED_MODULE_2__["broadcast"])(userId, {
+      type: 'updated',
+      payload: book
+    });
+  } else {
+    response.body = {
+      message: 'Resource no longer exists'
+    };
+    response.status = 405; // method not allowed
+  }
+});
+router.del('/book/:id', async ctx => {
+  const userId = ctx.state.user._id;
+  const book = await _store__WEBPACK_IMPORTED_MODULE_1__["default"].findOne({
+    _id: ctx.params.id
+  });
+
+  if (book && userId !== book.userId) {
+    ctx.response.status = 403; // forbidden
+  } else {
+    await _store__WEBPACK_IMPORTED_MODULE_1__["default"].remove({
+      _id: ctx.params.id
+    });
+    ctx.response.status = 204; // no content
+  }
+});
+
+/***/ }),
+
+/***/ "./src/book/store.js":
+/*!***************************!*\
+  !*** ./src/book/store.js ***!
+  \***************************/
+/*! exports provided: BookStore, default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "BookStore", function() { return BookStore; });
+/* harmony import */ var nedb_promise__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! nedb-promise */ "nedb-promise");
+/* harmony import */ var nedb_promise__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(nedb_promise__WEBPACK_IMPORTED_MODULE_0__);
+
+class BookStore {
+  constructor({
+    filename,
+    autoload
+  }) {
+    this.store = nedb_promise__WEBPACK_IMPORTED_MODULE_0___default()({
+      filename,
+      autoload
+    });
+  }
+
+  async find(props) {
+    return this.store.find(props);
+  }
+
+  async findOne(props) {
+    return this.store.findOne(props);
+  }
+
+  async insert(book) {
+    return this.store.insert(book);
+  }
+
+  async update(props, book) {
+    return this.store.update(props, book);
+  }
+
+  async remove(props) {
+    return this.store.remove(props);
+  }
+
+}
+/* harmony default export */ __webpack_exports__["default"] = (new BookStore({
+  filename: './db/books.json',
+  autoload: true
+}));
+
+/***/ }),
+
 /***/ "./src/index.js":
 /*!**********************!*\
   !*** ./src/index.js ***!
   \**********************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/*! no exports provided */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-const Koa = __webpack_require__(/*! koa */ "koa");
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var koa__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! koa */ "koa");
+/* harmony import */ var koa__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(koa__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var ws__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ws */ "ws");
+/* harmony import */ var ws__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(ws__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var http__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! http */ "http");
+/* harmony import */ var http__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(http__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var koa_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! koa-router */ "koa-router");
+/* harmony import */ var koa_router__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(koa_router__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var koa_bodyparser__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! koa-bodyparser */ "koa-bodyparser");
+/* harmony import */ var koa_bodyparser__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(koa_bodyparser__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./utils */ "./src/utils/index.js");
+/* harmony import */ var _book__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./book */ "./src/book/index.js");
+/* harmony import */ var _auth__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./auth */ "./src/auth/index.js");
+/* harmony import */ var koa_jwt__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! koa-jwt */ "koa-jwt");
+/* harmony import */ var koa_jwt__WEBPACK_IMPORTED_MODULE_8___default = /*#__PURE__*/__webpack_require__.n(koa_jwt__WEBPACK_IMPORTED_MODULE_8__);
+/* harmony import */ var _koa_cors__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! @koa/cors */ "@koa/cors");
+/* harmony import */ var _koa_cors__WEBPACK_IMPORTED_MODULE_9___default = /*#__PURE__*/__webpack_require__.n(_koa_cors__WEBPACK_IMPORTED_MODULE_9__);
 
-const app = new Koa();
 
-const server = __webpack_require__(/*! http */ "http").createServer(app.callback());
 
-const WebSocket = __webpack_require__(/*! ws */ "ws");
 
-const wss = new WebSocket.Server({
+
+
+
+
+
+
+const app = new koa__WEBPACK_IMPORTED_MODULE_0___default.a();
+const server = http__WEBPACK_IMPORTED_MODULE_2___default.a.createServer(app.callback());
+const wss = new ws__WEBPACK_IMPORTED_MODULE_1___default.a.Server({
   server
 });
+Object(_utils__WEBPACK_IMPORTED_MODULE_5__["initWss"])(wss);
+app.use(_koa_cors__WEBPACK_IMPORTED_MODULE_9___default()());
+app.use(_utils__WEBPACK_IMPORTED_MODULE_5__["timingLogger"]);
+app.use(_utils__WEBPACK_IMPORTED_MODULE_5__["exceptionHandler"]);
+app.use(koa_bodyparser__WEBPACK_IMPORTED_MODULE_4___default()());
+const prefix = '/api'; // public
 
-const Router = __webpack_require__(/*! koa-router */ "koa-router");
-
-const cors = __webpack_require__(/*! koa-cors */ "koa-cors");
-
-const bodyparser = __webpack_require__(/*! koa-bodyparser */ "koa-bodyparser");
-
-app.use(bodyparser());
-app.use(cors());
-app.use(async (ctx, next) => {
-  const start = new Date();
-  await next();
-  const ms = new Date() - start;
-  console.log(`${ctx.method} ${ctx.url} ${ctx.response.status} - ${ms}ms`);
+const publicApiRouter = new koa_router__WEBPACK_IMPORTED_MODULE_3___default.a({
+  prefix
 });
-app.use(async (ctx, next) => {
-  await new Promise(resolve => setTimeout(resolve, 2000));
-  await next();
+publicApiRouter.use('/auth', _auth__WEBPACK_IMPORTED_MODULE_7__["router"].routes());
+app.use(publicApiRouter.routes()).use(publicApiRouter.allowedMethods());
+app.use(koa_jwt__WEBPACK_IMPORTED_MODULE_8___default()(_utils__WEBPACK_IMPORTED_MODULE_5__["jwtConfig"])); // protected
+
+const protectedApiRouter = new koa_router__WEBPACK_IMPORTED_MODULE_3___default.a({
+  prefix
 });
-app.use(async (ctx, next) => {
+protectedApiRouter.use('/elements', _book__WEBPACK_IMPORTED_MODULE_6__["router"].routes());
+app.use(protectedApiRouter.routes()).use(protectedApiRouter.allowedMethods());
+server.listen(3000);
+console.log('started on port 3000');
+
+/***/ }),
+
+/***/ "./src/utils/constants.js":
+/*!********************************!*\
+  !*** ./src/utils/constants.js ***!
+  \********************************/
+/*! exports provided: jwtConfig */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "jwtConfig", function() { return jwtConfig; });
+const jwtConfig = {
+  secret: 'my-secret'
+};
+
+/***/ }),
+
+/***/ "./src/utils/index.js":
+/*!****************************!*\
+  !*** ./src/utils/index.js ***!
+  \****************************/
+/*! exports provided: jwtConfig, exceptionHandler, timingLogger, initWss, broadcast */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./constants */ "./src/utils/constants.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "jwtConfig", function() { return _constants__WEBPACK_IMPORTED_MODULE_0__["jwtConfig"]; });
+
+/* harmony import */ var _middlewares__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./middlewares */ "./src/utils/middlewares.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "exceptionHandler", function() { return _middlewares__WEBPACK_IMPORTED_MODULE_1__["exceptionHandler"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "timingLogger", function() { return _middlewares__WEBPACK_IMPORTED_MODULE_1__["timingLogger"]; });
+
+/* harmony import */ var _wss__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./wss */ "./src/utils/wss.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "initWss", function() { return _wss__WEBPACK_IMPORTED_MODULE_2__["initWss"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "broadcast", function() { return _wss__WEBPACK_IMPORTED_MODULE_2__["broadcast"]; });
+
+
+
+
+
+/***/ }),
+
+/***/ "./src/utils/middlewares.js":
+/*!**********************************!*\
+  !*** ./src/utils/middlewares.js ***!
+  \**********************************/
+/*! exports provided: exceptionHandler, timingLogger */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "exceptionHandler", function() { return exceptionHandler; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "timingLogger", function() { return timingLogger; });
+const exceptionHandler = async (ctx, next) => {
   try {
-    await next();
+    return await next();
   } catch (err) {
-    ctx.response.body = {
-      issue: [{
-        error: err.message || 'Unexpected error'
-      }]
+    ctx.body = {
+      message: err.message || 'Unexpected error.'
     };
-    ctx.response.status = 500;
+    ctx.status = err.status || 500;
   }
-});
+};
+const timingLogger = async (ctx, next) => {
+  const start = Date.now();
+  await next();
+  console.log(`${ctx.method} ${ctx.url} => ${ctx.response.status}, ${Date.now() - start}ms`);
+};
 
-class Book {
-  constructor({
-    id,
-    title,
-    author,
-    description,
-    published
-  }) {
-    this.id = id;
-    this.title = title;
-    this.author = author;
-    this.description = description;
-    this.published = published;
-  }
+/***/ }),
 
-}
+/***/ "./src/utils/wss.js":
+/*!**************************!*\
+  !*** ./src/utils/wss.js ***!
+  \**************************/
+/*! exports provided: initWss, broadcast */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-const books = [];
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "initWss", function() { return initWss; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "broadcast", function() { return broadcast; });
+/* harmony import */ var ws__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ws */ "ws");
+/* harmony import */ var ws__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(ws__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var jsonwebtoken__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! jsonwebtoken */ "jsonwebtoken");
+/* harmony import */ var jsonwebtoken__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(jsonwebtoken__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./constants */ "./src/utils/constants.js");
 
-for (let i = 0; i < 3; i++) {
-  date = new Date();
-  books.push(new Book({
-    id: `${i}`,
-    title: `Book ${i}`,
-    author: `Author ${i}`,
-    description: `Description ${i}`,
-    published: date
-  }));
-}
 
-let lastUpdated = books[books.length - 1].date;
-let lastId = books[books.length - 1].id;
 
-const broadcast = data => wss.clients.forEach(client => {
-  if (client.readyState === WebSocket.OPEN) {
-    client.send(JSON.stringify(data));
-  }
-});
+let wss;
+const initWss = value => {
+  wss = value;
+  wss.on('connection', ws => {
+    ws.on('message', message => {
+      const {
+        type,
+        payload: {
+          token
+        }
+      } = JSON.parse(message);
 
-const router = new Router();
-router.get('/book', ctx => {
-  const ifModifiedSince = ctx.request.get('If-Modified-Since');
+      if (type !== 'authorization') {
+        ws.close();
+        return;
+      }
 
-  if (ifModifiedSince && new Date(ifModifiedSince).getTime() >= lastUpdated.getTime() - lastUpdated.getMilliseconds()) {
-    ctx.response.status = 304; // NOT MODIFIED
-
+      try {
+        ws.user = jsonwebtoken__WEBPACK_IMPORTED_MODULE_1___default.a.verify(token, _constants__WEBPACK_IMPORTED_MODULE_2__["jwtConfig"].secret);
+      } catch (err) {
+        ws.close();
+      }
+    });
+  });
+};
+const broadcast = (userId, data) => {
+  if (!wss) {
     return;
   }
 
-  ctx.response.set('Last-Modified', lastUpdated.toUTCString());
-  ctx.response.body = books;
-  ctx.response.status = 200;
-});
-router.get('/book/:id', async ctx => {
-  const bookId = ctx.request.params.id;
-  const book = books.find(book => bookId === book.id);
-
-  if (book) {
-    ctx.response.body = book;
-    ctx.response.status = 200; // ok
-  } else {
-    ctx.response.body = {
-      issue: [{
-        warning: `book with id ${bookId} not found`
-      }]
-    };
-    ctx.response.status = 404; // NOT FOUND (if you know the resource was deleted, then return 410 GONE)
-  }
-});
-
-const createBook = async ctx => {
-  const book = ctx.request.body;
-
-  if (!book.title) {
-    // validation
-    ctx.response.body = {
-      issue: [{
-        error: 'Text is missing'
-      }]
-    };
-    ctx.response.status = 400; //  BAD REQUEST
-
-    return;
-  }
-
-  book.id = `${parseInt(lastId) + 1}`;
-  lastId = book.id;
-  book.published = new Date();
-  books.push(book);
-  ctx.response.body = book;
-  ctx.response.status = 201; // CREATED
-
-  broadcast({
-    event: 'created',
-    payload: {
-      book
+  wss.clients.forEach(client => {
+    if (client.readyState === ws__WEBPACK_IMPORTED_MODULE_0___default.a.OPEN && userId === client.user._id) {
+      console.log(`broadcast sent to ${client.user.username}`);
+      client.send(JSON.stringify(data));
     }
   });
 };
-
-router.post('/book', async ctx => {
-  await createBook(ctx);
-});
-router.put('/book/:id', async ctx => {
-  const id = ctx.params.id;
-  const book = ctx.request.body;
-  const bookId = book.id;
-
-  if (bookId && id !== book.id) {
-    ctx.response.body = {
-      issue: [{
-        error: `Param id and book id should be the same`
-      }]
-    };
-    ctx.response.status = 400; // BAD REQUEST
-
-    return;
-  }
-
-  if (!bookId) {
-    await createBook(ctx);
-    return;
-  }
-
-  const index = books.findIndex(book => book.id === id);
-
-  if (index === -1) {
-    ctx.response.body = {
-      issue: [{
-        error: `book with id ${id} not found`
-      }]
-    };
-    ctx.response.status = 400; // BAD REQUEST
-
-    return;
-  }
-
-  books[index] = book;
-  lastUpdated = new Date();
-  ctx.response.body = book;
-  ctx.response.status = 200; // OK
-
-  broadcast({
-    event: 'updated',
-    payload: {
-      book
-    }
-  });
-});
-setInterval(() => {
-  lastUpdated = new Date();
-  lastId = `${parseInt(lastId) + 1}`;
-  const book = new Book({
-    id: lastId,
-    title: `Book ${lastId}`,
-    author: `Author ${lastId}`,
-    description: `Description ${lastId}`,
-    published: lastUpdated
-  });
-  books.push(book);
-  console.log(`${book.title}`);
-  broadcast({
-    event: 'created',
-    payload: {
-      book
-    }
-  });
-}, 15000);
-app.use(router.routes());
-app.use(router.allowedMethods());
-server.listen(3000);
 
 /***/ }),
 
@@ -324,6 +620,17 @@ module.exports = __webpack_require__(/*! C:\Users\Viniele\Desktop\Projects\Unive
 
 /***/ }),
 
+/***/ "@koa/cors":
+/*!****************************!*\
+  !*** external "@koa/cors" ***!
+  \****************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("@koa/cors");
+
+/***/ }),
+
 /***/ "http":
 /*!***********************!*\
   !*** external "http" ***!
@@ -332,6 +639,17 @@ module.exports = __webpack_require__(/*! C:\Users\Viniele\Desktop\Projects\Unive
 /***/ (function(module, exports) {
 
 module.exports = require("http");
+
+/***/ }),
+
+/***/ "jsonwebtoken":
+/*!*******************************!*\
+  !*** external "jsonwebtoken" ***!
+  \*******************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("jsonwebtoken");
 
 /***/ }),
 
@@ -357,14 +675,14 @@ module.exports = require("koa-bodyparser");
 
 /***/ }),
 
-/***/ "koa-cors":
-/*!***************************!*\
-  !*** external "koa-cors" ***!
-  \***************************/
+/***/ "koa-jwt":
+/*!**************************!*\
+  !*** external "koa-jwt" ***!
+  \**************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = require("koa-cors");
+module.exports = require("koa-jwt");
 
 /***/ }),
 
@@ -376,6 +694,17 @@ module.exports = require("koa-cors");
 /***/ (function(module, exports) {
 
 module.exports = require("koa-router");
+
+/***/ }),
+
+/***/ "nedb-promise":
+/*!*******************************!*\
+  !*** external "nedb-promise" ***!
+  \*******************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("nedb-promise");
 
 /***/ }),
 

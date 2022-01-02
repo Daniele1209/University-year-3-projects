@@ -1,0 +1,111 @@
+import { CameraResultType, CameraSource } from '@capacitor/camera';
+import { Photo as CameraPhoto, Camera } from '@capacitor/camera'
+import { Directory as FilesystemDirectory } from '@capacitor/filesystem'
+import { useEffect, useState } from 'react';
+import { base64FromPath, useFilesystem } from '@ionic/react-hooks/filesystem';
+import { useStorage } from '@ionic/react-hooks/storage';
+ 
+export interface Photo {
+    filepath: string;
+    image?: string;
+}
+
+const PHOTO_STORAGE = 'photos';
+
+export function usePhotoGallery() {
+
+  const [photos, setPhotos] = useState<Photo[]>([]);
+
+  const takePhoto = async () => {
+    let camPhoto = undefined;
+    try{
+        camPhoto = await Camera.getPhoto({
+            resultType: CameraResultType.Uri,
+            source: CameraSource.Camera,
+            quality: 100
+        });
+    }catch (e : any){
+        console.log(e);
+        return;
+    }
+    const fileName = new Date().getTime() + '.jpeg';
+    const savedFileImage = await savePicture(camPhoto, fileName);
+    const newPhotos = [savedFileImage, ...photos];
+    setPhotos(newPhotos);
+    set(PHOTO_STORAGE, JSON.stringify(newPhotos));
+    return savedFileImage.image;
+};
+
+  const { deleteFile, readFile, writeFile } = useFilesystem();
+  const savePicture = async (photo: CameraPhoto, fileName: string): Promise<Photo> => {
+    const base64Data = await base64FromPath(photo.webPath!);
+    await writeFile({
+      path: fileName,
+      data: base64Data,
+      directory: FilesystemDirectory.Data,
+      recursive: true
+    });
+
+    return {
+      filepath: fileName,
+      image: base64Data
+    };
+  };
+
+ const { get, set } = useStorage();
+  useEffect(() => {
+    const loadSaved = async () => {
+      const photosString = await get(PHOTO_STORAGE);
+      const photos = (photosString ? JSON.parse(photosString) : []) as Photo[];
+      for (let photo of photos) {
+        try {
+          const file = await readFile({
+            path: photo.filepath,
+            directory: FilesystemDirectory.Data
+          });
+          photo.image = `data:image/jpeg;base64,${file.data}`;
+        } catch (error) {
+          setPhotos([]);
+          return;
+        }
+        
+      }
+      setPhotos(photos);
+    };
+    loadSaved();
+  }, [get, readFile]);
+
+  const deletePhoto = async (photo: Photo) => {
+    const newPhotos = photos.filter(p => p.filepath !== photo.filepath);
+    set(PHOTO_STORAGE, JSON.stringify(newPhotos));
+    const filename = photo.filepath.substr(photo.filepath.lastIndexOf('/') + 1);
+    await deleteFile({
+      path: filename,
+      directory: FilesystemDirectory.Data
+    });
+    setPhotos(newPhotos);
+  };
+
+  async function readAsBase64(cameraPhoto: CameraPhoto) {
+    // Fetch the photo, read as a blob, then convert to base64 format
+    const response = await fetch(cameraPhoto.webPath!);
+    const blob = await response.blob();
+  
+    return await convertBlobToBase64(blob) as string;  
+  }
+  
+  const  convertBlobToBase64 = (blob: Blob) => new Promise((resolve, reject) => {
+    const reader = new FileReader;
+    reader.onerror = reject;
+    reader.onload = () => {
+        resolve(reader.result);
+    };
+    reader.readAsDataURL(blob);
+  });
+
+  return {
+    photos: photos,
+    takePhoto: takePhoto,
+    deletePhoto: deletePhoto
+  };
+}

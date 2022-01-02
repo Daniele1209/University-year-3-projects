@@ -1,0 +1,9 @@
+N=S A B C D
+T=a b c
+S=S
+P
+S->a A | a C
+A->A B
+B->b
+C->a C | C D
+D->b

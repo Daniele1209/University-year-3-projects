@@ -1,0 +1,72 @@
+THREAD POOL | task-row | Threads: 2 | Size: 2 -> Time:0.16777216
+THREAD POOL | task-row | Threads: 2 | Size: 10 -> Time:0.0
+THREAD POOL | task-row | Threads: 2 | Size: 100 -> Time:0.33554432
+THREAD POOL | task-row | Threads: 2 | Size: 1000 -> Time:35.73547
+THREAD POOL | task-row | Threads: 10 | Size: 2 -> Time:0.0
+THREAD POOL | task-row | Threads: 10 | Size: 10 -> Time:0.0
+THREAD POOL | task-row | Threads: 10 | Size: 100 -> Time:0.0
+THREAD POOL | task-row | Threads: 10 | Size: 1000 -> Time:40.768635
+THREAD POOL | task-row | Threads: 100 | Size: 2 -> Time:0.16777216
+THREAD POOL | task-row | Threads: 100 | Size: 10 -> Time:0.33554432
+THREAD POOL | task-row | Threads: 100 | Size: 100 -> Time:0.33554432
+THREAD POOL | task-row | Threads: 100 | Size: 1000 -> Time:35.73547
+THREAD POOL | task-col | Threads: 2 | Size: 2 -> Time:0.0
+THREAD POOL | task-col | Threads: 2 | Size: 10 -> Time:0.0
+THREAD POOL | task-col | Threads: 2 | Size: 100 -> Time:0.16777216
+THREAD POOL | task-col | Threads: 2 | Size: 1000 -> Time:22.145926
+THREAD POOL | task-col | Threads: 10 | Size: 2 -> Time:0.0
+THREAD POOL | task-col | Threads: 10 | Size: 10 -> Time:0.0
+THREAD POOL | task-col | Threads: 10 | Size: 100 -> Time:0.0
+THREAD POOL | task-col | Threads: 10 | Size: 1000 -> Time:38.755367
+THREAD POOL | task-col | Threads: 100 | Size: 2 -> Time:0.50331646
+THREAD POOL | task-col | Threads: 100 | Size: 10 -> Time:0.16777216
+THREAD POOL | task-col | Threads: 100 | Size: 100 -> Time:0.33554432
+THREAD POOL | task-col | Threads: 100 | Size: 1000 -> Time:37.413193
+THREAD POOL | task-kth | Threads: 2 | Size: 2 -> Time:0.0
+THREAD POOL | task-kth | Threads: 2 | Size: 10 -> Time:0.0
+THREAD POOL | task-kth | Threads: 2 | Size: 100 -> Time:0.0
+THREAD POOL | task-kth | Threads: 2 | Size: 1000 -> Time:0.0
+THREAD POOL | task-kth | Threads: 10 | Size: 2 -> Time:0.0
+THREAD POOL | task-kth | Threads: 10 | Size: 10 -> Time:0.16777216
+THREAD POOL | task-kth | Threads: 10 | Size: 100 -> Time:0.0
+THREAD POOL | task-kth | Threads: 10 | Size: 1000 -> Time:0.0
+THREAD POOL | task-kth | Threads: 100 | Size: 2 -> Time:0.16777216
+THREAD POOL | task-kth | Threads: 100 | Size: 10 -> Time:0.33554432
+THREAD POOL | task-kth | Threads: 100 | Size: 100 -> Time:0.16777216
+THREAD POOL | task-kth | Threads: 100 | Size: 1000 -> Time:0.50331646
+NORMAL | task-row | Threads: 2 | Size: 2 -> Time:0.16777216
+NORMAL | task-row | Threads: 2 | Size: 10 -> Time:0.0
+NORMAL | task-row | Threads: 2 | Size: 100 -> Time:0.0
+NORMAL | task-row | Threads: 2 | Size: 1000 -> Time:50.66719
+NORMAL | task-row | Threads: 10 | Size: 2 -> Time:0.0
+NORMAL | task-row | Threads: 10 | Size: 10 -> Time:0.0
+NORMAL | task-row | Threads: 10 | Size: 100 -> Time:0.0
+NORMAL | task-row | Threads: 10 | Size: 1000 -> Time:54.022636
+NORMAL | task-row | Threads: 100 | Size: 2 -> Time:0.16777216
+NORMAL | task-row | Threads: 100 | Size: 10 -> Time:0.16777216
+NORMAL | task-row | Threads: 100 | Size: 100 -> Time:0.16777216
+NORMAL | task-row | Threads: 100 | Size: 1000 -> Time:38.419827
+NORMAL | task-col | Threads: 2 | Size: 2 -> Time:0.0
+NORMAL | task-col | Threads: 2 | Size: 10 -> Time:0.0
+NORMAL | task-col | Threads: 2 | Size: 100 -> Time:0.0
+NORMAL | task-col | Threads: 2 | Size: 1000 -> Time:21.139292
+NORMAL | task-col | Threads: 10 | Size: 2 -> Time:0.0
+NORMAL | task-col | Threads: 10 | Size: 10 -> Time:0.0
+NORMAL | task-col | Threads: 10 | Size: 100 -> Time:0.0
+NORMAL | task-col | Threads: 10 | Size: 1000 -> Time:38.084282
+NORMAL | task-col | Threads: 100 | Size: 2 -> Time:0.16777216
+NORMAL | task-col | Threads: 100 | Size: 10 -> Time:0.16777216
+NORMAL | task-col | Threads: 100 | Size: 100 -> Time:0.16777216
+NORMAL | task-col | Threads: 100 | Size: 1000 -> Time:38.587597
+NORMAL | task-kth | Threads: 2 | Size: 2 -> Time:0.0
+NORMAL | task-kth | Threads: 2 | Size: 10 -> Time:0.0
+NORMAL | task-kth | Threads: 2 | Size: 100 -> Time:0.0
+NORMAL | task-kth | Threads: 2 | Size: 1000 -> Time:0.16777216
+NORMAL | task-kth | Threads: 10 | Size: 2 -> Time:0.0
+NORMAL | task-kth | Threads: 10 | Size: 10 -> Time:0.0
+NORMAL | task-kth | Threads: 10 | Size: 100 -> Time:0.0
+NORMAL | task-kth | Threads: 10 | Size: 1000 -> Time:0.0
+NORMAL | task-kth | Threads: 100 | Size: 2 -> Time:0.16777216
+NORMAL | task-kth | Threads: 100 | Size: 10 -> Time:0.16777216
+NORMAL | task-kth | Threads: 100 | Size: 100 -> Time:0.16777216
+NORMAL | task-kth | Threads: 100 | Size: 1000 -> Time:0.50331646

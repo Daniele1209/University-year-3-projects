@@ -1,0 +1,23 @@
+N=program cmpdstmt declaration type stmt simplstmt structstmt assignstmt iostmt expression cArray term factor ifstmt whilestmt forstmt condition RELATION const_id
+T=start> <end <space> IDENTIFIER INT boolean char int string array <endline> = + - * / ( ) [ ] , read_val show CONSTANT : { } In_case else While For_each from < <= == != >= >
+S=program
+P
+program->start> cmpdstmt <end
+declaration->type IDENTIFIER
+type->boolean | char | int | string | array
+cmpdstmt->stmt | stmt <endline> cmpdstmt
+stmt->simplstmt | structstmt
+simplstmt->assignstmt | iostmt | declaration | E
+assignstmt->IDENTIFIER = expression | IDENTIFIER = cArray
+expression->term | term + expression | term - expression
+term->factor | factor * term | factor / term
+factor->IDENTIFIER | INT | ( expression )
+const_id->CONSTANT | IDENTIFIER | CONSTANT , const_id | IDENTIFIER , const_id
+cArray->[ const_id ]
+iostmt->read_val ( IDENTIFIER ) | show ( const_id )
+structstmt->ifstmt | whilestmt | forstmt
+ifstmt->In_case condition : { cmpdstmt } | In_case condition : { cmpdstmt } else { cmpdstmt }
+whilestmt->While condition : { cmpdstmt }
+forstmt->For_each IDENTIFIER from IDENTIFIER : { cmpdstmt }
+condition->expression RELATION expression
+RELATION->< | <= | == | != | >= | >
